@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SearchComponent from "./SearchComponent";
 
 const HomeComponent = () => {
   const [shuffle, setShuffle] = useState(false);
@@ -16,6 +17,7 @@ const HomeComponent = () => {
     if (option === "shuffle") setShuffle(true);
     else if (option === "search") setSearch(true);
     else if (option === "heart") setHeart(true);
+    else console.log("NA NA");
   };
 
   return (
@@ -25,9 +27,9 @@ const HomeComponent = () => {
         <button onClick={() => optionsToggle("search")}>Search</button>
         <button onClick={() => optionsToggle("heart")}>Heart</button>
       </div>
-      <div>{shuffle ? <div>shuffle</div> : console.log("No")}</div>
-      <div>{search ? <div>search</div> : console.log("No")}</div>
-      <div>{heart ? <div>heart</div> : console.log("No")}</div>
+      <div>{shuffle ? <div>Shuffle</div> : console.log("NA NA")}</div>
+      <div>{search ? <SearchComponent /> : console.log("No")}</div>
+      <div>{heart ? <div>Heart</div> : console.log("No")}</div>
     </div>
   );
 };
