@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchComponent from "./SearchComponent";
+import ShuffleComponent from "./ShuffleComponent";
 
 const HomeComponent = () => {
   const [shuffle, setShuffle] = useState(false);
+  const [shuffleAdvice, setshuffleAdvice] = useState(null);
+
   const [search, setSearch] = useState(false);
+  const [searchItem, setsearchItem] = useState();
+  const [searchAdvice, setsearchAdvice] = useState(null);
+
   const [heart, setHeart] = useState(false);
-  const [advice, setAdvice] = useState(null);
-  const [searchItem, setSearchItem] = useState();
 
   const stateToggle = () => {
     setShuffle(false);
@@ -15,11 +19,23 @@ const HomeComponent = () => {
     setHeart(false);
   };
 
-  const fetchAdvice = async () => {
+  const fetchSearchAdvice = async () => {
     try {
-      setAdvice(
+      setsearchAdvice(
         await axios.get(
           `https://api.adviceslip.com/advice/search/${searchItem}`
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchShuffleAdvice = async () => {
+    try {
+      setshuffleAdvice(
+        await axios.get(
+          "https://goquotes-api.herokuapp.com/api/v1/random?count=1"
         )
       );
     } catch (err) {
@@ -30,7 +46,7 @@ const HomeComponent = () => {
   const optionsToggle = (option) => {
     stateToggle();
     if (option === "shuffle") {
-      fetchAdvice();
+      fetchShuffleAdvice();
       setShuffle(true);
     } else if (option === "search") {
       setSearch(true);
@@ -39,7 +55,7 @@ const HomeComponent = () => {
   };
 
   useEffect(() => {
-    fetchAdvice();
+    fetchSearchAdvice();
   }, [searchItem]);
 
   return (
@@ -49,20 +65,24 @@ const HomeComponent = () => {
         <button onClick={() => optionsToggle("search")}>Search</button>
         <button onClick={() => optionsToggle("heart")}>Heart</button>
       </div>
-      <div>{shuffle ? <div>Shuffle</div> : ""}</div>
+      <div>
+        {shuffle ? <ShuffleComponent shuffleAdvice={shuffleAdvice} /> : ""}
+      </div>
       <div>
         {search ? (
           <input
             type="text"
             onChange={(e) => {
-              if (e.target.value.length !== 0) setSearchItem(e.target.value);
+              if (e.target.value.length !== 0) setsearchItem(e.target.value);
             }}
           />
         ) : (
           ""
         )}
       </div>
-      <div>{searchItem ? <SearchComponent advice={advice} /> : ""}</div>
+      <div>
+        {searchItem ? <SearchComponent searchAdvice={searchAdvice} /> : ""}
+      </div>
       <div>{heart ? <div>Heart</div> : ""}</div>
     </div>
   );
