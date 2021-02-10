@@ -22,15 +22,10 @@ const HomeComponent = () => {
           `https://api.adviceslip.com/advice/search/${searchItem}`
         )
       );
-      // setAdvice(await axios.get("https://dog.ceo/api/breeds/image/random"));
     } catch (err) {
       console.error(err);
     }
   };
-
-  useEffect(() => {
-    fetchAdvice();
-  }, [searchItem]);
 
   const optionsToggle = (option) => {
     stateToggle();
@@ -38,7 +33,6 @@ const HomeComponent = () => {
       fetchAdvice();
       setShuffle(true);
     } else if (option === "search") {
-      fetchAdvice();
       setSearch(true);
     } else if (option === "heart") setHeart(true);
     else console.log("NA NA");
@@ -48,17 +42,24 @@ const HomeComponent = () => {
     <div>
       <div>
         <button onClick={() => optionsToggle("shuffle")}>Shuffle</button>
-        <input
-          type="text"
-          onChange={(e) => {
-            setSearchItem(e.target.value);
-          }}
-        ></input>
         <button onClick={() => optionsToggle("search")}>Search</button>
         <button onClick={() => optionsToggle("heart")}>Heart</button>
       </div>
       <div>{shuffle ? <div>Shuffle</div> : ""}</div>
-      <div>{search ? <SearchComponent advice={advice} /> : ""}</div>
+      <div>
+        {search ? (
+          <input
+            type="text"
+            onChange={(e) => {
+              setSearchItem(e.target.value);
+              fetchAdvice();
+            }}
+          />
+        ) : (
+          ""
+        )}
+      </div>
+      <div>{searchItem ? <SearchComponent advice={advice} /> : ""}</div>
       <div>{heart ? <div>Heart</div> : ""}</div>
     </div>
   );
