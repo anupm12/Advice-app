@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import SearchComponent from "./SearchComponent";
 
 const HomeComponent = () => {
   const [shuffle, setShuffle] = useState(false);
   const [search, setSearch] = useState(false);
   const [heart, setHeart] = useState(false);
+  const [advice, setAdvice] = useState(null);
+  const [searchItem, setSearchItem] = useState();
 
   const stateToggle = () => {
     setShuffle(false);
@@ -12,13 +15,32 @@ const HomeComponent = () => {
     setHeart(false);
   };
 
+  const fetchAdvice = async () => {
+    try {
+      setAdvice(
+        await axios.get(
+          `https://api.adviceslip.com/advice/search/${searchItem}`
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const optionsToggle = (option) => {
     stateToggle();
-    if (option === "shuffle") setShuffle(true);
-    else if (option === "search") setSearch(true);
-    else if (option === "heart") setHeart(true);
+    if (option === "shuffle") {
+      fetchAdvice();
+      setShuffle(true);
+    } else if (option === "search") {
+      setSearch(true);
+    } else if (option === "heart") setHeart(true);
     else console.log("NA NA");
   };
+
+  useEffect(() => {
+    fetchAdvice();
+  }, [searchItem]);
 
   return (
     <div>
@@ -27,9 +49,21 @@ const HomeComponent = () => {
         <button onClick={() => optionsToggle("search")}>Search</button>
         <button onClick={() => optionsToggle("heart")}>Heart</button>
       </div>
-      <div>{shuffle ? <div>Shuffle</div> : console.log("NA NA")}</div>
-      <div>{search ? <SearchComponent /> : console.log("No")}</div>
-      <div>{heart ? <div>Heart</div> : console.log("No")}</div>
+      <div>{shuffle ? <div>Shuffle</div> : ""}</div>
+      <div>
+        {search ? (
+          <input
+            type="text"
+            onChange={(e) => {
+              if (e.target.value.length !== 0) setSearchItem(e.target.value);
+            }}
+          />
+        ) : (
+          ""
+        )}
+      </div>
+      <div>{searchItem ? <SearchComponent advice={advice} /> : ""}</div>
+      <div>{heart ? <div>Heart</div> : ""}</div>
     </div>
   );
 };
