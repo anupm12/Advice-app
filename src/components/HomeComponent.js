@@ -7,7 +7,7 @@ const HomeComponent = () => {
   const [search, setSearch] = useState(false);
   const [heart, setHeart] = useState(false);
   const [advice, setAdvice] = useState(null);
-  const [searchItem, setSearchItem] = useState(null);
+  const [searchItem, setSearchItem] = useState();
 
   const stateToggle = () => {
     setShuffle(false);
@@ -38,6 +38,10 @@ const HomeComponent = () => {
     else console.log("NA NA");
   };
 
+  useEffect(() => {
+    fetchAdvice();
+  }, [searchItem]);
+
   return (
     <div>
       <div>
@@ -51,8 +55,7 @@ const HomeComponent = () => {
           <input
             type="text"
             onChange={(e) => {
-              setSearchItem(e.target.value);
-              fetchAdvice();
+              if (e.target.value.length !== 0) setSearchItem(e.target.value);
             }}
           />
         ) : (
