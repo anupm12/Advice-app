@@ -1,25 +1,17 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-
-const SearchComponent = () => {
-  const [searchAdvice, setSearchAdvice] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("https://api.adviceslip.com/advice")
-      .then((res) => {
-        setSearchAdvice(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
+const SearchComponent = (props) => {
+  const searchAdvice = props.advice;
   // console.log(searchAdvice);
-
   return (
     <div>
-      {searchAdvice ? <p>{searchAdvice.slip.advice}</p> : <p>Loading...</p>}
+      {searchAdvice ? (
+        searchAdvice.data.slips ? (
+          searchAdvice.data.slips.map((val) => <p>{val.advice}</p>)
+        ) : (
+          <p>Nada</p>
+        )
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
