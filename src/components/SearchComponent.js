@@ -1,6 +1,10 @@
 const SearchComponent = (props) => {
-  const saveAdvice = (id) => {
-    console.log("clicked" + id);
+  const saveAdvice = (advice) => {
+    let storedAdvice = localStorage.getItem("advice");
+    localStorage.setItem("advice", storedAdvice + JSON.stringify(advice));
+    storedAdvice = localStorage.getItem("advice");
+    
+    // console.log(storedAdvice);
   };
 
   const searchAdvice = props.searchAdvice;
@@ -8,7 +12,7 @@ const SearchComponent = (props) => {
     <div>
       {searchAdvice.data.slips ? (
         searchAdvice.data.slips.map((val) => (
-          <p onClick={() => saveAdvice(val.id)} key={val.id}>
+          <p onClick={() => saveAdvice(val.advice)} key={val.id}>
             {val.advice}
           </p>
         ))

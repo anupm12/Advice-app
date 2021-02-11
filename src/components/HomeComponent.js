@@ -4,6 +4,7 @@ import SearchComponent from "./SearchComponent";
 import ShuffleComponent from "./ShuffleComponent";
 
 const HomeComponent = () => {
+  localStorage.setItem("advice","");
   const [shuffle, setShuffle] = useState(false);
   const [shuffleAdvice, setshuffleAdvice] = useState(null);
 
