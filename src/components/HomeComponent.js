@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchComponent from "./SearchComponent";
 import ShuffleComponent from "./ShuffleComponent";
+import LikedAdvice from "./LikedAdvice";
 
-const HomeComponent = () => {
-  localStorage.setItem("advice","");
+const HomeComponent = () => {  
   const [shuffle, setShuffle] = useState(false);
   const [shuffleAdvice, setshuffleAdvice] = useState(null);
 
@@ -84,7 +84,7 @@ const HomeComponent = () => {
       <div>
         {searchItem ? <SearchComponent searchAdvice={searchAdvice} /> : ""}
       </div>
-      <div>{heart ? <div>Heart</div> : ""}</div>
+      <div>{heart ? <LikedAdvice/> : ""}</div>
     </div>
   );
 };

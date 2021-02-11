@@ -1,10 +1,12 @@
 const SearchComponent = (props) => {
+
   const saveAdvice = (advice) => {
-    let storedAdvice = localStorage.getItem("advice");
-    localStorage.setItem("advice", storedAdvice + JSON.stringify(advice));
-    storedAdvice = localStorage.getItem("advice");
-    
-    // console.log(storedAdvice);
+    if(localStorage.getItem("advice") !== null){
+      const storedAdvice = localStorage.getItem("advice");
+      localStorage.setItem("advice", storedAdvice + JSON.stringify(advice) + "/");
+    } else{
+      localStorage.setItem("advice", JSON.stringify(advice) + "/");
+    }
   };
 
   const searchAdvice = props.searchAdvice;
