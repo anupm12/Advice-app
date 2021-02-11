@@ -1,13 +1,19 @@
 const ShuffleComponent = (props) => {
-  const saveAdvice = () => {
-    console.log("clicked");
+
+  const saveAdvice = (advice) => {
+    if(localStorage.getItem("advice") !== null){
+      const storedAdvice = localStorage.getItem("advice");
+      localStorage.setItem("advice", storedAdvice + JSON.stringify(advice) + "/");
+    } else{
+      localStorage.setItem("advice", JSON.stringify(advice) + "/");
+    }
   };
 
   const shuffleAdvice = props.shuffleAdvice;
   return (
     <div>
       {shuffleAdvice ? (
-        <p onClick={saveAdvice}>{shuffleAdvice.data.quotes[0].text}</p>
+        <p onClick={() => saveAdvice(shuffleAdvice.data.quotes[0].text)}>{shuffleAdvice.data.quotes[0].text}</p>
       ) : (
         <p>Loading...</p>
       )}
