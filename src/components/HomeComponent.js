@@ -50,12 +50,15 @@ const HomeComponent = () => {
   const optionsToggle = (option) => {
     stateToggle();
     if (option === "shuffle") {
+      setsearchAdvice("");
       fetchShuffleAdvice();
       setShuffle(true);
     } else if (option === "search") {
       setSearch(true);
-    } else if (option === "heart") setHeart(true);
-    else console.log("NA NA");
+    } else if (option === "heart") {
+      setsearchAdvice("");
+      setHeart(true);
+    } else console.log("NA NA");
   };
 
   useEffect(() => {
@@ -91,22 +94,28 @@ const HomeComponent = () => {
           </div>
           <div>
             {search ? (
-              <input
-                className="w-full rounded-sm px-2 py-1 placeholder-gray-300"
-                style={{ background: "#545353" }}
-                placeholder="Type here"
-                type="text"
-                onChange={(e) => {
-                  if (e.target.value.length !== 0)
-                    setsearchItem(e.target.value);
-                }}
-              />
+              <>
+                <input
+                  className="w-full rounded-sm px-2 py-1 placeholder-gray-300"
+                  style={{ background: "#545353" }}
+                  placeholder="Type here"
+                  type="text"
+                  onChange={(e) => {
+                    if (e.target.value.length !== 0)
+                      setsearchItem(e.target.value);
+                  }}
+                />
+                <div>
+                  {searchItem ? (
+                    <SearchComponent searchAdvice={searchAdvice} />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </>
             ) : (
               ""
             )}
-          </div>
-          <div>
-            {searchItem ? <SearchComponent searchAdvice={searchAdvice} /> : ""}
           </div>
           <div>{heart ? <LikedAdvice /> : ""}</div>
         </div>
