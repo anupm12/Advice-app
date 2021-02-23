@@ -66,7 +66,7 @@ const HomeComponent = () => {
   }, [searchItem]);
 
   return (
-    <div className="flex flex-col justify-center items-center rounded-lg shadow-2xl bg-gradient-to-r from-gradGray to-gradBlue h-3/4 w-full lg:w-4/5">
+    <div className="flex flex-col justify-center items-center rounded-lg shadow-2xl bg-gradient-to-r from-gradGray to-gradBlue h-full lg:h-3/4 w-full lg:w-4/5">
       <div className="flex justify-between rounded-t-lg bg-lghtBlack w-4/5 lg:w-2/5 px-5 py-4 mb-3">
         <button
           className="px-5 transition transform hover:scale-125"
